@@ -1,0 +1,20 @@
+{
+  "clientes": [
+    {
+      "nombre": "comida",
+      "empresa": "dientes",
+      "correo": "dexter@palito.com",
+      "telefono": "8097885148",
+      "notas": "qq",
+      "id": 1
+    },
+    {
+      "nombre": "antologia",
+      "empresa": "dientes",
+      "correo": "dexter@palito.com",
+      "telefono": "8097885148",
+      "notas": "qq",
+      "id": 2
+    }
+  ]
+}
