@@ -1,9 +1,12 @@
 import React from 'react'
 import {Formik, Form, Field} from 'formik'
+import {useNavigate} from 'react-router-dom'
 import * as Yup from 'yup'
 import ErrorAlert from './ErrorAlert'
 
 const Formulario = () => {
+
+    const navegate = useNavigate()
 
     const nuevoClienteSchema = Yup.object().shape({
         nombre: Yup.string().min(3, 'El nombre tiene que ser mayor a 3 caracteres').required('El nombre es obligatorio'),
@@ -23,10 +26,11 @@ const Formulario = () => {
                     'Content-Type': 'application/json'
                   }   
                 })
+                
+                await respuesta.json()
+                
+                navegate('/clientes')
 
-                console.log(respuesta)
-                const resultado = await respuesta.json()
-                console.log(resultado)
         } catch (error) {
             console.log(error)
         }
@@ -45,8 +49,10 @@ const Formulario = () => {
             notas: ''
         }}
 
-        onSubmit={(values) => {
-            handleSubmit(values)
+        onSubmit={async (values,{resetForm}) => {
+            await handleSubmit(values)
+
+            resetForm()
         }}
 
         validationSchema={nuevoClienteSchema}
