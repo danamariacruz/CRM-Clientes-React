@@ -21,7 +21,7 @@ const Inicio = () => {
     consultadoCliente()
   },[])
 
-  const handleEliminar = id => {
+  const handleEliminar = async id => {
        const confirmar = confirm('Desea eliminar a este cliente')
 
        if(confirmar) {
@@ -29,16 +29,16 @@ const Inicio = () => {
             const url=`http://localhost:4000/clientes/${id}`
   
               const respuesta = await fetch(url, {
-                method: 'DELETE',                  
+                method: 'DELETE'                
                 })
 
               await respuesta.json()
 
               const arrayCliente = cliente.filter(cliente => cliente.id !== id)
               setClientes(arrayCliente)
-              
+
           } catch (error) {
-            CONSOLE.LOG(error) 
+            console.log(error) 
           }
        }
   }

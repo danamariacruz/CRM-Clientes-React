@@ -15,14 +15,6 @@
       "telefono": "8097885148",
       "notas": "probando",
       "id": 2
-    },
-    {
-      "nombre": "Pedro",
-      "empresa": "mecanico",
-      "correo": "oedroelmecanico@gmail.com",
-      "telefono": "8097885965",
-      "notas": "soy nuevo en el negocio",
-      "id": 3
     }
   ]
 }
