@@ -21,6 +21,28 @@ const Inicio = () => {
     consultadoCliente()
   },[])
 
+  const handleEliminar = id => {
+       const confirmar = confirm('Desea eliminar a este cliente')
+
+       if(confirmar) {
+          try {
+            const url=`http://localhost:4000/clientes/${id}`
+  
+              const respuesta = await fetch(url, {
+                method: 'DELETE',                  
+                })
+
+              await respuesta.json()
+
+              const arrayCliente = cliente.filter(cliente => cliente.id !== id)
+              setClientes(arrayCliente)
+              
+          } catch (error) {
+            CONSOLE.LOG(error) 
+          }
+       }
+  }
+
   return (
     <>
      <h1 className="font-black text-4xl text-blue-900">Cliente</h1> 
@@ -40,6 +62,7 @@ const Inicio = () => {
               <Clientes
                   key={cliente.id}
                   cliente={cliente}
+                  handleEliminar={handleEliminar}
               />
           )
           )}
