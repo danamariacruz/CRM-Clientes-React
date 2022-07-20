@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import * as Yup from 'yup'
 import ErrorAlert from './ErrorAlert'
 
-const Formulario = () => {
+const Formulario = ({cliente,cargando}) => {
 
     const navegate = useNavigate()
 
@@ -17,19 +17,35 @@ const Formulario = () => {
 
     const handleSubmit = async (valores)  => {
         try {
-            const url='http://localhost:4000/clientes'
+            let respuesta ;
+           if (cliente.id) {
+            const url=`http://localhost:4000/clientes/${cliente.id}`
 
-            const respuesta = await fetch(url, {
-                method: 'POST',
+            respuesta = await fetch(url, {
+                method: 'PUT',
                 body: JSON.stringify(valores),
                 headers: {
                     'Content-Type': 'application/json'
                   }   
                 })
                 
-                await respuesta.json()
+           } 
+           else 
+           {
+            const url='http://localhost:4000/clientes'
+
+            respuesta = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(valores),
+                headers: {
+                    'Content-Type': 'application/json'
+                  }   
+                })                
+           }
+
+           await respuesta.json()
                 
-                navegate('/clientes')
+           navegate('/clientes')
 
         } catch (error) {
             console.log(error)
@@ -37,72 +53,81 @@ const Formulario = () => {
     }
 
   return (
-    <div className="bg-white mt-10 px-5 ppy-10 rounded-md shadow-md md: w-3/4 mx-auto">
-    <h1 className="text-gray-600 font-bold text-xl uppercase text-center"> Nuevo Cliente</h1>
+      cargando ? 'Cargando ...' : (
+        <div className="bg-white mt-10 px-5 ppy-10 rounded-md shadow-md md: w-3/4 mx-auto">
+        <h1 className="text-gray-600 font-bold text-xl uppercase text-center">{cliente?.nombre ? 'Editar cliente' : 'Agregar cliente'}</h1>
 
-      <Formik 
-        initialValues={{
-            nombre: '',
-            empresa: '',
-            correo:'',
-            telefono: '',
-            notas: ''
-        }}
+        <Formik 
+            initialValues={{
+                nombre: cliente?.nombre ?? "", //esta es una forma de escribir un termario en react, funcina de la misma manera 
+                empresa: cliente?.empresa  ?? "",
+                correo:cliente?.correo ?? "",
+                telefono: cliente?.telefono ?? "",
+                notas: cliente?.notas ?? ""
+            }}
 
-        onSubmit={async (values,{resetForm}) => {
-            await handleSubmit(values)
+            enableReinitialize={true}
 
-            resetForm()
-        }}
+            onSubmit={async (values,{resetForm}) => {
+                await handleSubmit(values)
 
-        validationSchema={nuevoClienteSchema}
-      >
-      {({errors,touched}) => {        
-        return(
-        <Form className="mt-10">
-            <div className="mb-4">
-                <label className="text-gray-800" htmlFor="nombre">Nombre: </label>
-                <Field id="nombre" name="nombre" type="text" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Nombre del cliente" />
-                {errors.nombre && touched.nombre ? (
-                    <ErrorAlert>{errors.nombre}</ErrorAlert>
-                ) : null}
-            </div>
+                resetForm()
+            }}
 
-            <div className="mb-4">
-                <label className="text-gray-800">Empresa: </label>
-                <Field name="empresa" type="text" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Empresa del cliente" />
-                {errors.empresa && touched.empresa ? (
-                    <ErrorAlert>{errors.empresa}</ErrorAlert>
-                ) : null}
-            </div>
+            validationSchema={nuevoClienteSchema}
+        >
+        {({errors,touched}) => {        
+            return(
+            <Form className="mt-10">
+                <div className="mb-4">
+                    <label className="text-gray-800" htmlFor="nombre">Nombre: </label>
+                    <Field id="nombre" name="nombre" type="text" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Nombre del cliente" />
+                    {errors.nombre && touched.nombre ? (
+                        <ErrorAlert>{errors.nombre}</ErrorAlert>
+                    ) : null}
+                </div>
 
-            <div className="mb-4">
-                <label className="text-gray-800">Correo</label>
-                <Field type="email" name="correo" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Correo del cliente" />
-                {errors.correo && touched.correo ? (
-                    <ErrorAlert>{errors.correo}</ErrorAlert>
-                ) : null}
-            </div>
+                <div className="mb-4">
+                    <label className="text-gray-800">Empresa: </label>
+                    <Field name="empresa" type="text" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Empresa del cliente" />
+                    {errors.empresa && touched.empresa ? (
+                        <ErrorAlert>{errors.empresa}</ErrorAlert>
+                    ) : null}
+                </div>
 
-            <div className="mb-4">
-                <label className="text-gray-800">Telefono</label>
-                <Field type="tel" name="telefono" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Telefono del cliente" />
-                {errors.telefono && touched.telefono ? (
-                    <ErrorAlert>{errors.telefono}</ErrorAlert>
-                ) : null}
-            </div>
+                <div className="mb-4">
+                    <label className="text-gray-800">Correo</label>
+                    <Field type="email" name="correo" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Correo del cliente" />
+                    {errors.correo && touched.correo ? (
+                        <ErrorAlert>{errors.correo}</ErrorAlert>
+                    ) : null}
+                </div>
 
-            <div className="mb-4">
-                <label className="text-gray-800" >Notas</label>
-                <Field as="textarea" name="notas" type="password" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Nota del cliente" />
-            </div>
+                <div className="mb-4">
+                    <label className="text-gray-800">Telefono</label>
+                    <Field type="tel" name="telefono" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Telefono del cliente" />
+                    {errors.telefono && touched.telefono ? (
+                        <ErrorAlert>{errors.telefono}</ErrorAlert>
+                    ) : null}
+                </div>
 
-            <input type="submit" value="Agregar" className="mt-5 w-full bg-blue-800 p-3 text-white uppercase font-bold text-lg" />
-        </Form>
-        )}}
-    </Formik>
-    </div>
+                <div className="mb-4">
+                    <label className="text-gray-800" >Notas</label>
+                    <Field as="textarea" name="notas" type="password" className="mt-2 block w-full p-3 bg-gray-50" placeholder="Nota del cliente" />
+                </div>
+
+                <input type="submit" value={cliente?.nombre ? 'Editar cliente' : 'Agregar cliente'} className="mt-5 w-full bg-blue-800 p-3 text-white uppercase font-bold text-lg" />
+            </Form>
+            )}}
+        </Formik>
+        </div>
+    )
   )
+}
+
+Formulario.defaultProps = {
+    cliente:{},
+    cargando:false
 }
 
 export default Formulario

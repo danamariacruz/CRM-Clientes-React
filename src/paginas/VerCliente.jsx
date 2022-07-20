@@ -25,6 +25,7 @@ const VerCliente = () => {
         }
         obtenerCliente()
     }, [])
+    
   return (
 
     cargando ? <p>Cargando ...</p> : Object.keys(cliente).length === 0 ? <p>No hay resultados</p> : (

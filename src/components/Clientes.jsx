@@ -16,7 +16,9 @@ const Clientes = ({cliente}) => {
       <td className="p-3">{cliente.empresa}</td>
       <td className="p-3">
           <div className="content-center ml-24">
-          <button type="button" className="bg-blue-600 hover:bg-blue-700 text-white p-2 uppercase fond-bold text-xs" >Editar</button> <button type="button" className="bg-red-600 hover:bg-red-700 text-white p-2 uppercase fond-bold text-xs" >Eliminar</button> 
+          <button type="button" className="bg-blue-600 hover:bg-blue-700 text-white p-2 uppercase fond-bold text-xs" 
+            onClick={() => navegate(`/clientes/editar/${cliente.id}`)}>Editar</button> 
+          <button type="button" className="bg-red-600 hover:bg-red-700 text-white p-2 uppercase fond-bold text-xs" >Eliminar</button> 
           </div>
       </td>
     </tr>

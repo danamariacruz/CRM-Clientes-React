@@ -1,19 +1,28 @@
 {
   "clientes": [
     {
-      "nombre": "comida",
+      "nombre": "martina",
       "empresa": "dientes",
       "correo": "dexter@palito.com",
       "telefono": "8097885148",
-      "notas": "qq",
+      "notas": "estoy en mi primer negocio",
       "id": 1
     },
     {
-      "nombre": "antologia",
+      "nombre": "luisa",
       "empresa": "dientes",
       "correo": "dexter@palito.com",
-      "telefono": "8097885148",      
+      "telefono": "8097885148",
+      "notas": "probando",
       "id": 2
+    },
+    {
+      "nombre": "Pedro",
+      "empresa": "mecanico",
+      "correo": "oedroelmecanico@gmail.com",
+      "telefono": "8097885965",
+      "notas": "soy nuevo en el negocio",
+      "id": 3
     }
   ]
 }
