@@ -4,11 +4,11 @@ import Clientes from '../components/Clientes'
 const Inicio = () => {
 
   const [clientes,setClientes] = useState([])
-
+console.log(import.meta.env.VITE_API_URL)
   useEffect(() => {
     const consultadoCliente = async() => {
       try {
-        const url='http://localhost:4000/clientes'
+        const url=import.meta.env.VITE_API_URL
 
         const respuesta = await fetch(url)
         const res=await respuesta.json()
@@ -26,7 +26,7 @@ const Inicio = () => {
 
        if(confirmar) {
           try {
-            const url=`http://localhost:4000/clientes/${id}`
+            const url=`${import.meta.env.VITE_API_URL}/clientes/${id}`
   
               const respuesta = await fetch(url, {
                 method: 'DELETE'                
